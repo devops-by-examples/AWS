@@ -27,6 +27,3 @@ def lambda_handler(event,context):
     # upload file from tmp to s3 key
     bucket.upload_file('/tmp/test.csv', key)
     
-    return {
-        'message': 'success
-    }
