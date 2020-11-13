@@ -1,0 +1,36 @@
+import json
+import boto3
+
+s3 = boto3.resource('s3')
+bucket_lifecycle_configuration = s3.BucketLifecycleConfiguration('bucket_name')
+
+def lambda_handler(event, context):
+   response = bucket_lifecycle_configuration.put(
+    LifecycleConfiguration={
+        'Rules': [
+            {
+                'ID': 'LifecycleConfiguration',
+                'Status': 'Enabled',
+                'Transitions': [
+                    {
+                        'Days': 123,
+                        'StorageClass': 'INTELLIGENT_TIERING'
+                    },
+                ],
+                'NoncurrentVersionTransitions': [
+                    {
+                        'NoncurrentDays': 123,
+                        'StorageClass': 'STANDARD_IA'
+                    },
+                    {
+                        'NoncurrentDays': 123,
+                        'StorageClass': 'GLACIER'
+                    },
+                ],
+                'NoncurrentVersionExpiration': {
+                    'NoncurrentDays': 123
+                },
+            },
+        ]
+    },
+ )
