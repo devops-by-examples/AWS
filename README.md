@@ -1,2 +1,2 @@
 # AWS-Lambda
-AWS Lambda functions for Cloud-admins
+AWS Lambda functions for cloud-admins
