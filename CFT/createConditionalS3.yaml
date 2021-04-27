@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+Parameters:
+  Landscape:
+    Description: >
+    Type: String
+    AllowedValues:
+    - sb
+    - ci
+    - qa
+    - stg
+    - prod
+    - ALL
+    ConstraintDescription: >
+      values: sb, ci, qa, stg, prod
+    Default: ALL
+
+Conditions:
+  isALL: !Equals [!Ref Landscape, ALL]
+  isSB: !Or [!Equals [!Ref Landscape, sb], Condition: isALL]
+  isCI: !Or [!Equals [!Ref Landscape, ci], Condition: isALL]
+  isQA: !Or [!Equals [!Ref Landscape, qa], Condition: isALL]
+  isSTG: !Or [!Equals [!Ref Landscape, stg], Condition: isALL]
+  isPROD: !Or [!Equals [!Ref Landscape, prod], Condition: isALL]
+  
+Resources:
+
+  S3BucketSB:
+    Type: AWS::S3::Bucket
+    Condition: isSB
+    Properties:
+      AccessControl: Private
+      BucketName: kuali-research-pdf-sb
+      LifecycleConfiguration:
+        Rules:
+        - Id: OneZoneIARule
+          Status: Enabled
+          ExpirationInDays: '365'
+          Transitions:
+            - TransitionInDays: '30'
+              StorageClass: ONEZONE_IA
+              
+  S3BucketCI:
+    Type: AWS::S3::Bucket
+    Condition: isCI
+    Properties:
+      AccessControl: Private
+      BucketName: kuali-research-pdf-ci
+      LifecycleConfiguration:
+        Rules:
+        - Id: OneZoneIARule
+          Status: Enabled
+          ExpirationInDays: '365'
+          Transitions:
+            - TransitionInDays: '30'
+              StorageClass: ONEZONE_IA
+              
+  S3BucketQA:
+    Type: AWS::S3::Bucket
+    Condition: isQA
+    Properties:
+      AccessControl: Private
+      BucketName: kuali-research-pdf-qa
+      LifecycleConfiguration:
+        Rules:
+        - Id: OneZoneIARule
+          Status: Enabled
+          ExpirationInDays: '365'
+          Transitions:
+            - TransitionInDays: '30'
+              StorageClass: ONEZONE_IA
+              
+  S3BucketSTG:
+    Type: AWS::S3::Bucket
+    Condition: isSTG
+    Properties:
+      AccessControl: Private
+      BucketName: kuali-research-pdf-stg
+      LifecycleConfiguration:
+        Rules:
+        - Id: OneZoneIARule
+          Status: Enabled
+          ExpirationInDays: '365'
+          Transitions:
+            - TransitionInDays: '30'
+              StorageClass: ONEZONE_IA
+              
+  S3BucketPROD:
+    Type: AWS::S3::Bucket
+    Condition: isPROD
+    Properties:
+      AccessControl: Private
+      BucketName: kuali-research-pdf-prod
+      LifecycleConfiguration:
+        Rules:
+        - Id: OneZoneIARule
+          Status: Enabled
+          ExpirationInDays: '365'
+          Transitions:
+            - TransitionInDays: '30'
+              StorageClass: ONEZONE_IA
