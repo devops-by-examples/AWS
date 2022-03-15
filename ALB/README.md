@@ -51,4 +51,4 @@ Successfully created target group -  arn:aws:elasticloadbalancing:us-east-1:xxxx
 WorkFlow Diagram
 ----------------
 
-![WorkFlow]()
+![WorkFlow](ALB_Workflow.png)
